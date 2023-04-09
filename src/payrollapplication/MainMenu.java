@@ -4,11 +4,13 @@
  * and open the template in the editor.
  */
 package payrollapplication;
+
 import Department.AddDepartment;
 import Department.ListDepartment;
 import Department.SearchDepartment;
 import Department.UpdateDepartment;
 import Grade.AddGrade;
+import Grade.SearchGrade;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -24,27 +26,26 @@ import javax.swing.JMenuItem;
  *
  * @author KIIT
  */
-public class MainMenu extends JFrame implements ActionListener{
-    
+public class MainMenu extends JFrame implements ActionListener {
+
     JMenuBar menuBar;
-    JMenu fileMenu,employeeMenu,departmentMenu,gradeMenu,helpMenu,otherTaskMenu;
-    JMenuItem sampleItem, listEmployee, addEmployee, removeEmployee , searchEmployee, updateEmployee, 
-               listDepartment, addDepartment, searchDepartment, updateDepartment,
-               listGrade, addGrade, removeGrade , searchGrade, updateGrade, 
-               help, otherTaskItem1, otherTaskItem2 , otherTaskItem3, otherTaskItem4;
-    
+    JMenu fileMenu, employeeMenu, departmentMenu, gradeMenu, helpMenu, otherTaskMenu;
+    JMenuItem sampleItem, listEmployee, addEmployee, removeEmployee, searchEmployee, updateEmployee,
+            listDepartment, addDepartment, searchDepartment, updateDepartment,
+            listGrade, addGrade, removeGrade, searchGrade, updateGrade,
+            help, otherTaskItem1, otherTaskItem2, otherTaskItem3, otherTaskItem4;
+
     JFrame mainMenuFrame;
-    
-    public MainMenu()
-    {
+
+    public MainMenu() {
         mainMenuFrame = new JFrame("Company/Organisation Name");
         menuBar = new JMenuBar();
-        
+
         fileMenu = new JMenu("File");
         sampleItem = new JMenuItem("Sample");
         fileMenu.add(sampleItem);
         menuBar.add(fileMenu);
-        
+
         employeeMenu = new JMenu("Employee");
         listEmployee = new JMenuItem("List of Employee");
         addEmployee = new JMenuItem("Add Employee");
@@ -57,8 +58,7 @@ public class MainMenu extends JFrame implements ActionListener{
         employeeMenu.add(searchEmployee);
         employeeMenu.add(updateEmployee);
         menuBar.add(employeeMenu);
-        
-        
+
         departmentMenu = new JMenu("Department");
         listDepartment = new JMenuItem("List of Department");
         addDepartment = new JMenuItem("Add Department");
@@ -69,8 +69,7 @@ public class MainMenu extends JFrame implements ActionListener{
         departmentMenu.add(searchDepartment);
         departmentMenu.add(updateDepartment);
         menuBar.add(departmentMenu);
-        
-        
+
         gradeMenu = new JMenu("Grade");
         listGrade = new JMenuItem("List of Grades");
         addGrade = new JMenuItem("Add Grade");
@@ -83,14 +82,12 @@ public class MainMenu extends JFrame implements ActionListener{
         gradeMenu.add(searchGrade);
         gradeMenu.add(updateGrade);
         menuBar.add(gradeMenu);
-        
-        
+
         helpMenu = new JMenu("Help");
         help = new JMenuItem("Need Help ?");
         helpMenu.add(help);
         menuBar.add(helpMenu);
-        
-        
+
         otherTaskMenu = new JMenu("Other Task");
         otherTaskItem1 = new JMenuItem("Task Item 1");
         otherTaskItem2 = new JMenuItem("Task Item 2");
@@ -101,10 +98,9 @@ public class MainMenu extends JFrame implements ActionListener{
         otherTaskMenu.add(otherTaskItem3);
         otherTaskMenu.add(otherTaskItem4);
         menuBar.add(otherTaskMenu);
-        
-        
+
         mainMenuFrame.setJMenuBar(menuBar);
-        mainMenuFrame.setSize(600,600);
+        mainMenuFrame.setSize(600, 600);
         mainMenuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainMenuFrame.setResizable(false);
         String imagePath = "C:\\Users\\KIIT\\Documents\\NetBeansProjects\\PayrollApplication\\src\\payrollapplication\\Images\\backgroundImage.jpg";
@@ -122,66 +118,68 @@ public class MainMenu extends JFrame implements ActionListener{
         mainMenuFrame.add(backgroundLabel);
         mainMenuFrame.setContentPane(backgroundLabel);
         mainMenuFrame.setVisible(true);
-        
-        
+
         addDepartment.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent ev) {
+            public void actionPerformed(ActionEvent ev) {
                 mainMenuFrame.setVisible(false);
                 mainMenuFrame = new AddDepartment().getAddDepartmentFrame();
                 mainMenuFrame.setVisible(true);
-        }
-    });
-        
+            }
+        });
+
         listDepartment.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent ev) {
+            public void actionPerformed(ActionEvent ev) {
                 mainMenuFrame.setVisible(false);
                 mainMenuFrame = new ListDepartment().getListDepartmentFrame();
                 mainMenuFrame.setVisible(true);
-        }
+            }
         });
-        
+
         searchDepartment.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent ev) {
+            public void actionPerformed(ActionEvent ev) {
                 mainMenuFrame.setVisible(false);
                 mainMenuFrame = new SearchDepartment().getSearchDepartmentFrame();
                 mainMenuFrame.setVisible(true);
-        }
+            }
         });
-        
+
         updateDepartment.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent ev) {
+            public void actionPerformed(ActionEvent ev) {
                 mainMenuFrame.setVisible(false);
                 mainMenuFrame = new UpdateDepartment().getUpdateDepartmentFrame();
                 mainMenuFrame.setVisible(true);
-        }
+            }
         });
-        
+
         addGrade.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent ev) {
+            public void actionPerformed(ActionEvent ev) {
                 mainMenuFrame.setVisible(false);
                 mainMenuFrame = new AddGrade().getAddGradeFrame();
                 mainMenuFrame.setVisible(true);
-        }
+            }
         });
-       
-        
+
+        searchGrade.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+                mainMenuFrame.setVisible(false);
+                mainMenuFrame = new SearchGrade().getSearchGradeFrame();
+                mainMenuFrame.setVisible(true);
+            }
+        });
+
     }
-    
-    
-    public static void main(String args[])
-    {
+
+    public static void main(String args[]) {
         new MainMenu();
     }
-    
-    public JFrame getMainMenuFrame()
-    {
+
+    public JFrame getMainMenuFrame() {
         return mainMenuFrame;
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        
+
     }
-    
-    
+
 }

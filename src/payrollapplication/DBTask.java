@@ -6,6 +6,7 @@
 package payrollapplication;
 
 import Department.Department;
+import Grade.Grade;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -260,7 +261,7 @@ public class DBTask {
     public int uploadDeductionGradeDetails(String id, String ptax, String pfund) {
 
         try {
-            String query = "insert into deduction_grade_details values('" +id + "','"+ ptax + "','" + pfund + "');";
+            String query = "insert into deduction_grade_details values('" + id + "','" + ptax + "','" + pfund + "');";
             System.out.println(query);
             statement.executeUpdate(query);
             return SUCCESS;
@@ -271,11 +272,10 @@ public class DBTask {
         }
 
     }
-    
-    
-    public void performGradeDeleteOnError(String grade_id){
+
+    public void performGradeDeleteOnError(String grade_id) {
         try {
-            String query = "delete from grade where id= '"+ grade_id + "';";
+            String query = "delete from grade where id= '" + grade_id + "';";
             statement.executeUpdate(query);
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -283,8 +283,43 @@ public class DBTask {
         }
     }
 
+    public Grade searchGradeById(String id) {
+        try {
+            Grade grade = null;
+            String query = "select i.grade_id,hra1,hra2,hra3,da,ta,lta,medical,phonewifi,anyother,ptax,pfund,name from "
+                    + "basic_grade_details i inner join other_grade_details o on i.grade_id = o.grade_id inner "
+                    + "join deduction_grade_details d on d.grade_id = i.grade_id inner join grade g on g.id = d.grade_id  " + "where i.grade_id = '" + id + "';";
+            System.out.println(query);
+            ResultSet resultSet = statement.executeQuery(query);
+
+            if (resultSet.next()) {
+
+                String grade_id = resultSet.getString(1);
+                String hra1 = resultSet.getString(2);
+                String hra2 = resultSet.getString(3);
+                String hra3 = resultSet.getString(4);
+                String da = resultSet.getString(5);
+                String ta = resultSet.getString(6);
+                String lta = resultSet.getString(7);
+                String medical = resultSet.getString(8);
+                String phonewifi = resultSet.getString(9);
+                String anyother = resultSet.getString(10);
+                String ptax = resultSet.getString(11);
+                String pfund = resultSet.getString(12);
+                String grade_name = resultSet.getString(13);
+
+                grade = new Grade(grade_id, grade_name, hra1, hra2, hra3, ta, lta, da, medical, phonewifi, anyother, ptax, pfund);
+
+                return grade;
+            } else {
+                return null;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DBTask.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
 }
 
-// select i.grade_id,hra1,hra2,hra3,da,ta,lta,medical,phonewifi,anyother,ptax,pfund from
-// basic_grade_details i inner join other_grade_details o on i.grade_id = o.grade_id inner 
-// join deduction_grade_details d on d.grade_id = i.grade_id ;
+
