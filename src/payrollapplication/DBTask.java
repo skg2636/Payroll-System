@@ -370,6 +370,22 @@ public class DBTask {
             return null;
         }
     }
+    
+    
+    public int deleteGradeById(String grade_id){
+        try {
+            String query = "delete from grade where id = '" + grade_id + "';";
+            
+            System.out.println(query);
+            
+            statement.executeUpdate(query);
+            
+            return SUCCESS;
+        } catch (SQLException ex) {
+            Logger.getLogger(DBTask.class.getName()).log(Level.SEVERE, null, ex);
+            return DB_ERROR;
+        }
+    }
 
     // GRADE MODULE FUNCTIONS
 }

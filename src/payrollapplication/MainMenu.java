@@ -10,6 +10,7 @@ import Department.ListDepartment;
 import Department.SearchDepartment;
 import Department.UpdateDepartment;
 import Grade.AddGrade;
+import Grade.DeleteGrade;
 import Grade.SearchGrade;
 import Grade.UpdateGrade;
 import java.awt.Dimension;
@@ -175,6 +176,17 @@ public class MainMenu extends JFrame implements ActionListener {
                 mainMenuFrame.setVisible(true);
             }
         });
+        
+        removeGrade.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+                mainMenuFrame.setVisible(false);
+                mainMenuFrame = new DeleteGrade().getDeleteGradeFrame();
+                mainMenuFrame.setVisible(true);
+            }
+        });
+        
+        
+       
 
     }
 

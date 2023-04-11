@@ -53,7 +53,7 @@ public class UpdateGrade extends JFrame {
     public UpdateGrade(){
         task = new DBTask();
         updateGardeFrame = new JFrame();
-        updateGardeFrame.setTitle("Add New Grade");
+        updateGardeFrame.setTitle("Update Grade");
         updateGardeFrame.setSize(500, 650);
         updateGardeFrame.setLayout(new GridBagLayout());
         updateGardeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

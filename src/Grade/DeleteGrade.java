@@ -23,7 +23,7 @@ import payrollapplication.MainMenu;
  *
  * @author KIIT
  */
-public class SearchGrade extends JFrame {
+public class DeleteGrade extends JFrame{
 
     DBTask task;
 
@@ -38,18 +38,20 @@ public class SearchGrade extends JFrame {
 
     private JTextField gradeIdField;
 
-    private JButton searchButton, closeButton;
-    private JFrame searchGardeFrame;
+    private JButton searchButton, closeButton, deleteButton;
+    private JFrame deleteGardeFrame;
     private JPanel otherDetailsPanel, basicDetailsPanel, deductionDetailsPanel;
 
-    public SearchGrade() {
+    private String GRADE_ID;
+
+    public DeleteGrade() {
         task = new DBTask();
-        searchGardeFrame = new JFrame();
-        searchGardeFrame.setTitle("Search Grade");
-        searchGardeFrame.setSize(500, 650);
-        searchGardeFrame.setLayout(new GridBagLayout());
-        searchGardeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        searchGardeFrame.setResizable(false);
+        deleteGardeFrame = new JFrame();
+        deleteGardeFrame.setTitle("Delete Grade");
+        deleteGardeFrame.setSize(500, 650);
+        deleteGardeFrame.setLayout(new GridBagLayout());
+        deleteGardeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        deleteGardeFrame.setResizable(false);
 
         basicDetailsPanel = new JPanel();
         basicDetailsPanel.setLayout(null);
@@ -103,7 +105,6 @@ public class SearchGrade extends JFrame {
         pfField = new JLabel("");
 
         gradeIdField = new JTextField();
-
         JLabel allLabel[] = {gradeIdLabel, gradeNameLabel, hraPercentLabelA, hraPercentLabelB, hraPercentLabelC,
             taPercentLabel, ltaPercentLabel, daPercentLabel, medicalAllowanceLabel, phonewifiAllowanceLabel,
             otherAllowanceLabel, profTaxLabel, pfLabel,
@@ -173,17 +174,22 @@ public class SearchGrade extends JFrame {
         deductionDetailsPanel.add(pfField);
 
         searchButton = new JButton("Search");
-        searchButton.setBounds(80, 130, 80, 25);
+        searchButton.setBounds(60, 130, 80, 25);
         deductionDetailsPanel.add(searchButton);
 
+        deleteButton = new JButton("Delete");
+        deleteButton.setBounds(160, 130, 80, 25);
+        deductionDetailsPanel.add(deleteButton);
+        deleteButton.setEnabled(false);
+
         closeButton = new JButton("Close");
-        closeButton.setBounds(280, 130, 80, 25);
+        closeButton.setBounds(260, 130, 80, 25);
         deductionDetailsPanel.add(closeButton);
 
         closeButton.addActionListener(e -> {
-            searchGardeFrame.setVisible(false);
-            searchGardeFrame = new MainMenu().getMainMenuFrame();
-            searchGardeFrame.setVisible(true);
+            deleteGardeFrame.setVisible(false);
+            deleteGardeFrame = new MainMenu().getMainMenuFrame();
+            deleteGardeFrame.setVisible(true);
         });
 
         searchButton.addActionListener(e -> {
@@ -191,12 +197,16 @@ public class SearchGrade extends JFrame {
             searchGrade(grade_id);
         });
 
-        Container contentPane = searchGardeFrame.getContentPane();
+        deleteButton.addActionListener(e -> {
+            deleteGrade(GRADE_ID);
+        });
+        
+        Container contentPane = deleteGardeFrame.getContentPane();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
         contentPane.add(basicDetailsPanel);
         contentPane.add(otherDetailsPanel);
         contentPane.add(deductionDetailsPanel);
-        searchGardeFrame.setVisible(true);
+        deleteGardeFrame.setVisible(true);
 
     }
 
@@ -212,6 +222,7 @@ public class SearchGrade extends JFrame {
             return;
         } else {
             JOptionPane.showMessageDialog(null, "No Grade with Grade Id = " + grade_id + " exists");
+            deleteButton.setEnabled(false);
             return;
         }
 
@@ -230,11 +241,35 @@ public class SearchGrade extends JFrame {
         otherAllowanceField.setText(grade.getOtherAllowance());
         profTaxField.setText(grade.getProfTax());
         pfField.setText(grade.getPf());
-
+        GRADE_ID = grade.getGradeId();
+        deleteButton.setEnabled(true);
     }
 
-    public JFrame getSearchGradeFrame() {
-        return searchGardeFrame;
+    public JFrame getDeleteGradeFrame() {
+        return deleteGardeFrame;
+    }
+
+    private void deleteGrade(String grade_id) {
+        int user_final_input = JOptionPane.showConfirmDialog(null,
+                "Are you sure you wish to delete grade with id = "
+                + grade_id, null, JOptionPane.YES_NO_OPTION);
+        if (user_final_input == JOptionPane.NO_OPTION) {
+            return;
+        }
+
+        int delete_result = task.deleteGradeById(grade_id);
+
+        if (delete_result == task.SUCCESS) {
+            JOptionPane.showMessageDialog(null, "Delete Success");
+            deleteGardeFrame.setVisible(false);
+            deleteGardeFrame = new MainMenu().getMainMenuFrame();
+            deleteGardeFrame.setVisible(true);
+            return;
+        } else if (delete_result == task.DB_ERROR) {
+            JOptionPane.showMessageDialog(null, "Deletion Failed! Try again");
+            return;
+        }
+
     }
 
 }
