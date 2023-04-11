@@ -205,6 +205,7 @@ public class DBTask {
     }
 
     // DEPARTMENT MODULE FUNCTIONS
+    // GRADE MODULE FUNCTIONS
     public int addGradeDetails(String id, String name) {
         try {
             String checkQuery = "select * from grade where id = '" + id + "';";
@@ -283,6 +284,56 @@ public class DBTask {
         }
     }
 
+    public int updateGrade(Grade updatedGrade) {
+
+        try {
+            String grade_id = updatedGrade.getGradeId();
+            String grade_name = updatedGrade.getGradeName();
+            String hra1 = updatedGrade.getHraPercentA();
+            String hra2 = updatedGrade.getHraPercentB();
+            String hra3 = updatedGrade.getHraPercentC();
+            String da = updatedGrade.getDaPercent();
+            String ta = updatedGrade.getTaPercent();
+            String lta = updatedGrade.getLtaPercent();
+            String medical = updatedGrade.getMedicalAllowance();
+            String phonewifi = updatedGrade.getPhonewifiAllowance();
+            String anyother = updatedGrade.getOtherAllowance();
+            String ptax = updatedGrade.getProfTax();
+            String pfund = updatedGrade.getPf();
+            
+            
+            
+            String grade_name_query = "update grade set name = '" + grade_name + "' where id = '" + grade_id + "';";
+            String basic_update_query = "update basic_grade_details set hra1 = '" + hra1 + "', hra2 = '" +
+                    hra2 + "', hra3='" + hra3 + "', da ='" + da + "', ta='" + ta + "', lta='" + lta +
+                    "' where grade_id = '" + grade_id + "';";
+            
+            String other_update_query = "update other_grade_details set medical = '" + medical +
+                    "', phonewifi = '" + phonewifi + "', anyother = '" + anyother +
+                    "' where grade_id = '" + grade_id + "';";
+            
+            String deduction_update_query = "update deduction_grade_details set ptax='" + ptax +
+                    "', pfund='" +pfund + "' where grade_id='" + grade_id + "';";
+            
+            System.out.println(grade_name_query);
+            System.out.println(basic_update_query);
+            System.out.println(other_update_query);
+            System.out.println(deduction_update_query);
+
+            statement.executeUpdate(grade_name_query);
+            statement.executeUpdate(basic_update_query);
+            statement.executeUpdate(other_update_query);
+            statement.executeUpdate(deduction_update_query);
+
+            return SUCCESS;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            Logger.getLogger(DBTask.class.getName()).log(Level.SEVERE, null, ex);
+            return DB_ERROR;
+        }
+
+    }
+
     public Grade searchGradeById(String id) {
         try {
             Grade grade = null;
@@ -320,6 +371,5 @@ public class DBTask {
         }
     }
 
+    // GRADE MODULE FUNCTIONS
 }
-
-

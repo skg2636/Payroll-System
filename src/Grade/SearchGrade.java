@@ -9,16 +9,13 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagLayout;
-import java.text.NumberFormat;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.text.NumberFormatter;
 import payrollapplication.DBTask;
 import payrollapplication.MainMenu;
 
@@ -220,7 +217,7 @@ public class SearchGrade extends JFrame {
 
     }
 
-    public void setGradeDetails(Grade grade) {
+    private void setGradeDetails(Grade grade) {
         gradeNameField.setText(grade.getGradeName());
         hraPercentFieldA.setText(grade.getHraPercentA());
         hraPercentFieldB.setText(grade.getHraPercentB());

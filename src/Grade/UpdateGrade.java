@@ -26,35 +26,39 @@ import payrollapplication.MainMenu;
  *
  * @author KIIT
  */
-public class AddGrade {
+public class UpdateGrade extends JFrame {
+    DBTask task;
 
-    private DBTask task;
     private JLabel basicLabel, otherLabel, deductionLabel;
-
+    
     private JLabel gradeIdLabel, gradeNameLabel, hraPercentLabelA, hraPercentLabelB, hraPercentLabelC,
             taPercentLabel, ltaPercentLabel, daPercentLabel, medicalAllowanceLabel, phonewifiAllowanceLabel,
             otherAllowanceLabel, profTaxLabel, pfLabel;
-
+    
     private JTextField gradeIdField, gradeNameField;
-
+    
     private JFormattedTextField hraPercentFieldA, hraPercentFieldB, hraPercentFieldC,
             taPercentField, ltaPercentField, daPercentField, medicalAllowanceField, phonewifiAllowanceField,
             otherAllowanceField, profTaxField, pfField;
-    private JButton submitButton, closeButton, clearButton;
-    private JFrame addGardeFrame;
+    
+    private JButton searchButton, updateButton, closeButton;
+    
+    private JFrame updateGardeFrame;
     private JPanel otherDetailsPanel, basicDetailsPanel, deductionDetailsPanel;
     private NumberFormat numberFormat;
     private NumberFormatter numberFormatter;
-
-    public AddGrade() {
+    private JFormattedTextField allField[] ;
+    private Grade gradeFromDatabase,updatedGrade;
+    
+    public UpdateGrade(){
         task = new DBTask();
-        addGardeFrame = new JFrame();
-        addGardeFrame.setTitle("Add New Grade");
-        addGardeFrame.setSize(500, 650);
-        addGardeFrame.setLayout(new GridBagLayout());
-        addGardeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        addGardeFrame.setResizable(false);
-
+        updateGardeFrame = new JFrame();
+        updateGardeFrame.setTitle("Add New Grade");
+        updateGardeFrame.setSize(500, 650);
+        updateGardeFrame.setLayout(new GridBagLayout());
+        updateGardeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        updateGardeFrame.setResizable(false);
+        
         otherDetailsPanel = new JPanel();
         otherDetailsPanel.setLayout(null);
         otherDetailsPanel.setPreferredSize(new Dimension(250, 200));
@@ -78,7 +82,7 @@ public class AddGrade {
         deductionLabel.setFont(new Font("arial", Font.BOLD, 16));
         deductionLabel.setBounds(150, 10, 250, 30);
         deductionDetailsPanel.add(deductionLabel);
-
+        
         gradeIdLabel = new JLabel("Grade ID:");
         gradeNameLabel = new JLabel("Grade Name:");
         hraPercentLabelA = new JLabel("HRA-T1 %:");
@@ -92,7 +96,7 @@ public class AddGrade {
         otherAllowanceLabel = new JLabel("Other/Bonus Allowance:");
         profTaxLabel = new JLabel("Professional Tax:");
         pfLabel = new JLabel("Provident fund %:");
-
+        
         numberFormat = NumberFormat.getInstance();
         numberFormatter = new NumberFormatter(numberFormat);
         numberFormatter.setValueClass(Integer.class);
@@ -100,7 +104,7 @@ public class AddGrade {
         numberFormatter.setMaximum(Integer.MAX_VALUE);
         numberFormatter.setAllowsInvalid(false);
         numberFormatter.setCommitsOnValidEdit(true);
-
+        
         gradeIdField = new JTextField();
         gradeNameField = new JTextField();
         hraPercentFieldA = new JFormattedTextField(numberFormatter);
@@ -114,15 +118,15 @@ public class AddGrade {
         otherAllowanceField = new JFormattedTextField(numberFormatter);
         profTaxField = new JFormattedTextField(numberFormatter);
         pfField = new JFormattedTextField(numberFormatter);
-
-        JFormattedTextField allField[] = {hraPercentFieldA, hraPercentFieldB, hraPercentFieldC,
+        
+        allField = new JFormattedTextField[]{hraPercentFieldA, hraPercentFieldB, hraPercentFieldC,
             taPercentField, ltaPercentField, daPercentField, medicalAllowanceField, phonewifiAllowanceField,
             otherAllowanceField, profTaxField, pfField};
-
+        
         JLabel allLabel[] = {hraPercentLabelA, hraPercentLabelB, hraPercentLabelC,
             taPercentLabel, ltaPercentLabel, daPercentLabel, medicalAllowanceLabel, phonewifiAllowanceLabel,
             otherAllowanceLabel, profTaxLabel, pfLabel};
-
+        
         gradeIdLabel.setBounds(40, 50, 70, 25);
         gradeIdField.setBounds(130, 50, 90, 25);
         gradeNameLabel.setBounds(240, 50, 70, 25);
@@ -159,7 +163,8 @@ public class AddGrade {
         basicDetailsPanel.add(gradeIdField);
         basicDetailsPanel.add(gradeNameLabel);
         basicDetailsPanel.add(gradeNameField);
-
+        gradeNameField.setVisible(false);
+        
         for (int i = 0; i < 11; i++) {
             if (i >= 9) {
                 deductionDetailsPanel.add(allLabel[i]);
@@ -171,77 +176,75 @@ public class AddGrade {
                 basicDetailsPanel.add(allLabel[i]);
                 basicDetailsPanel.add(allField[i]);
             }
-
+            
+           allField[i].setVisible(false);
         }
-
-        submitButton = new JButton("Submit");
-        submitButton.setBounds(60, 130, 80, 25);
-        deductionDetailsPanel.add(submitButton);
-
-        clearButton = new JButton("Clear");
-        clearButton.setBounds(160, 130, 80, 25);
-        deductionDetailsPanel.add(clearButton);
+        
+        searchButton = new JButton("Search");
+        searchButton.setBounds(60, 130, 80, 25);
+        deductionDetailsPanel.add(searchButton);
 
         closeButton = new JButton("Close");
-        closeButton.setBounds(260, 130, 80, 25);
+        closeButton.setBounds(160, 130, 80, 25);
         deductionDetailsPanel.add(closeButton);
 
-        submitButton.addActionListener(e -> {
-            addGradeDetails();
-        });
-
+        updateButton = new JButton("Update");
+        updateButton.setBounds(260, 130, 80, 25);
+        deductionDetailsPanel.add(updateButton);
+        updateButton.setEnabled(false);
+        
         closeButton.addActionListener(e -> {
-            addGardeFrame.setVisible(false);
-            addGardeFrame = new MainMenu().getMainMenuFrame();
-            addGardeFrame.setVisible(true);
+            updateGardeFrame.setVisible(false);
+            updateGardeFrame = new MainMenu().getMainMenuFrame();
+            updateGardeFrame.setVisible(true);
         });
-        clearButton.addActionListener(e -> {
-            for (int i = 0; i < 11; i++) {
-                allField[i].setText("0");
-            }
+        
+        searchButton.addActionListener(e -> {
+            String grade_id = gradeIdField.getText();
+            searchGrade(grade_id);
         });
-
-        Container contentPane = addGardeFrame.getContentPane();
+        
+        updateButton.addActionListener(e -> {
+           updateGradeDetails();
+        });
+        
+        Container contentPane = updateGardeFrame.getContentPane();
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
         contentPane.add(basicDetailsPanel);
         contentPane.add(otherDetailsPanel);
         contentPane.add(deductionDetailsPanel);
-        addGardeFrame.setVisible(true);
+        updateGardeFrame.setVisible(true);
 
+        
     }
-
-    public JFrame getAddGradeFrame() {
-        return addGardeFrame;
-    }
-
-    public void addGradeDetails() {
-
+    
+    private void updateGradeDetails(){
         String grade_id = gradeIdField.getText();
         String grade_name = gradeNameField.getText();
-
+        
         if (grade_id.equals("") || grade_name.equals("")) {
             JOptionPane.showMessageDialog(null, "Grade ID and Name cannot be empty");
             return;
         }
-
+        
         String hra1 = hraPercentFieldA.getText();
         String hra2 = hraPercentFieldB.getText();
         String hra3 = hraPercentFieldC.getText();
-
+        
         if (hra1.equals("") || hra2.equals("") || hra3.equals("")) {
             JOptionPane.showMessageDialog(null, "Any HRA cannot be empty");
             return;
         }
-
+        
         String ta = taPercentField.getText();
         String da = daPercentField.getText();
         String lta = ltaPercentField.getText();
-
+        
         if (ta.equals("") || da.equals("") || lta.equals("")) {
             JOptionPane.showMessageDialog(null, "TA,DA,LTA cannot be empty");
             return;
         }
-
+        
         String medical = medicalAllowanceField.getText();
         if (medical.equals("")) {
             medical = "0";
@@ -256,7 +259,7 @@ public class AddGrade {
         if (other.equals("")) {
             other = "0";
         }
-
+        
         String ptax = profTaxField.getText();
         if (ptax.equals("")) {
             JOptionPane.showMessageDialog(null, "Professional Tax cannot be empty");
@@ -268,34 +271,77 @@ public class AddGrade {
             JOptionPane.showMessageDialog(null, "Provident Fund cannot be empty");
             return;
         }
-
-        int result = task.addGradeDetails(grade_id, grade_name);
-        if (result == DBTask.PRIMARY_KEY_ERROR) {
-            JOptionPane.showMessageDialog(null, "Grade Id already exists");
+        
+        
+        
+        updatedGrade = new Grade(grade_id, grade_name, hra1, hra2, hra3, ta, lta, da, medical, phone, other, ptax, pfund);
+        
+        if(!updatedGrade.checkSimliarGradeId(gradeFromDatabase)){
+            JOptionPane.showMessageDialog(null, "Grade ID cannot be changed");
             return;
-        } else if (result == DBTask.DB_ERROR) {
-            JOptionPane.showMessageDialog(null, "Error! Please try again after sometime");
-            return;
-        } else if (result == DBTask.SUCCESS) {
-            int res1 = task.uploadBasicGradeDetails(grade_id, hra1, hra2, hra3, da, lta, ta);
-            int res2 = task.uploadOtherGradeDetails(grade_id, medical, phone, other);
-            int res3 = task.uploadDeductionGradeDetails(grade_id, ptax, pfund);
-
-            if (res1 != DBTask.SUCCESS || res2 != DBTask.SUCCESS || res3 != DBTask.SUCCESS) {
-                task.performGradeDeleteOnError(grade_id);
-                JOptionPane.showMessageDialog(null, "Error! Please try again after sometime");
-                return;
-            } else {
-                JOptionPane.showMessageDialog(null, "Grade Added Sucessfully");
-                addGardeFrame.setVisible(false);
-                addGardeFrame = new MainMenu().getMainMenuFrame();
-                addGardeFrame.setVisible(true);
-                return;
-
-            }
-
         }
-
+        if(gradeFromDatabase.equals(updatedGrade)){
+            JOptionPane.showMessageDialog(null, "No Changes done in Grade");
+            return;
+        }
+        
+        int updateResult = task.updateGrade(updatedGrade);
+        if(updateResult == task.SUCCESS){
+            JOptionPane.showMessageDialog(null, "Changes done");
+            updateGardeFrame.setVisible(false);
+            updateGardeFrame = new MainMenu().getMainMenuFrame();
+            updateGardeFrame.setVisible(true);
+            return;
+        }else if(updateResult == task.DB_ERROR){
+            JOptionPane.showMessageDialog(null, "Update failed! Please try again");
+            return;
+        }
+        
+        
+        
     }
-
+    
+    private void searchGrade(String grade_id){
+        if (grade_id.equals("")) {
+            JOptionPane.showMessageDialog(null, "Please Enter Grade Id");
+            return;
+        }
+        gradeFromDatabase = task.searchGradeById(grade_id);
+        if (gradeFromDatabase != null) {
+            setGradeDetails(gradeFromDatabase);
+            return;
+        } else {
+            JOptionPane.showMessageDialog(null, "No Grade with Grade Id = " + grade_id + " exists");
+            return;
+        }
+        
+        
+    }
+    
+    
+    private void setGradeDetails(Grade grade) {
+        gradeNameField.setText(grade.getGradeName());
+        hraPercentFieldA.setText(grade.getHraPercentA());
+        hraPercentFieldB.setText(grade.getHraPercentB());
+        hraPercentFieldC.setText(grade.getHraPercentC());
+        taPercentField.setText(grade.getTaPercent());
+        ltaPercentField.setText(grade.getLtaPercent());
+        daPercentField.setText(grade.getDaPercent());
+        medicalAllowanceField.setText(grade.getMedicalAllowance());
+        phonewifiAllowanceField.setText(grade.getPhonewifiAllowance());
+        otherAllowanceField.setText(grade.getOtherAllowance());
+        profTaxField.setText(grade.getProfTax());
+        pfField.setText(grade.getPf());
+        
+        gradeNameField.setVisible(true);
+        for(int i=0;i<allField.length;i++){
+            allField[i].setVisible(true);
+        }
+        updateButton.setEnabled(true);
+    }
+    
+    public JFrame getUpdateGradeFrame(){
+        return updateGardeFrame;
+    }
+    
 }

@@ -30,7 +30,11 @@ public class Grade {
         this.profTax = profTax;
         this.pf = pf;
     }
-
+    
+    
+    public boolean checkSimliarGradeId(Grade anotherGrade){
+        return this.gradeId.equals(anotherGrade.getGradeId());
+    }
     public String getGradeId() {
         return gradeId;
     }
@@ -134,6 +138,34 @@ public class Grade {
     public void setPf(String pf) {
         this.pf = pf;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+       if(this == obj)
+           return true;
+       
+       if(obj == null || obj.getClass() != this.getClass())
+           return false;
+       
+       Grade another = (Grade) obj;
+       
+       return this.gradeName.equals(another.gradeName) &&
+              this.hraPercentA.equals(another.hraPercentA) &&
+              this.hraPercentB.equals(another.hraPercentB) &&
+              this.hraPercentC.equals(another.hraPercentC) &&
+              this.taPercent.equals(another.taPercent) &&
+               this.ltaPercent.equals(another.ltaPercent) &&
+               this.daPercent.equals(another.daPercent) &&
+               this.medicalAllowance.equals(another.medicalAllowance) &&
+               this.phonewifiAllowance.equals(another.phonewifiAllowance) &&
+               this.otherAllowance.equals(another.otherAllowance) &&
+               this.profTax.equals(another.profTax) &&
+               this.pf.equals(another.pf) ;
+              
+    }
+    
+    
+    
     
     
     

@@ -11,6 +11,7 @@ import Department.SearchDepartment;
 import Department.UpdateDepartment;
 import Grade.AddGrade;
 import Grade.SearchGrade;
+import Grade.UpdateGrade;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -163,6 +164,14 @@ public class MainMenu extends JFrame implements ActionListener {
             public void actionPerformed(ActionEvent ev) {
                 mainMenuFrame.setVisible(false);
                 mainMenuFrame = new SearchGrade().getSearchGradeFrame();
+                mainMenuFrame.setVisible(true);
+            }
+        });
+        
+        updateGrade.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+                mainMenuFrame.setVisible(false);
+                mainMenuFrame = new UpdateGrade().getUpdateGradeFrame();
                 mainMenuFrame.setVisible(true);
             }
         });
