@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Department;
 
 import java.awt.BorderLayout;
@@ -21,11 +17,8 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import payrollapplication.DBTask;
 import payrollapplication.MainMenu;
+import payrollapplication.ExportList;
 
-/**
- *
- * @author KIIT
- */
 public class ListDepartment extends JFrame{
     private JFrame listDepartmentFrame;
     private JLabel filterLabel;
@@ -72,6 +65,7 @@ public class ListDepartment extends JFrame{
         JPanel tablePanel = new JPanel(new BorderLayout());
         tablePanel.add(new JScrollPane(departmentTable), BorderLayout.CENTER);
         
+        
         listDepartmentFrame.getContentPane().setLayout(new BorderLayout());
         listDepartmentFrame.getContentPane().add(filterPanel, BorderLayout.NORTH);
         listDepartmentFrame.getContentPane().add(tablePanel,BorderLayout.CENTER);
@@ -88,7 +82,7 @@ public class ListDepartment extends JFrame{
         exportButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Exporting Feature");
-                ExportList exportList = new ExportList(model, model.getRowCount());
+                ExportList exportList = new ExportList(model, model.getRowCount(),column_names);
                 int result = exportList.writeFile();
                 if(result == 1){
                     JOptionPane.showMessageDialog(null, "Exported Successfully");
@@ -108,7 +102,7 @@ public class ListDepartment extends JFrame{
           
         listDepartmentFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         listDepartmentFrame.setTitle("All Department List");
-        listDepartmentFrame.setSize(600, 400);
+        listDepartmentFrame.setSize(600, 600);
         listDepartmentFrame.setLocationRelativeTo(null);
         listDepartmentFrame.setVisible(true);
         

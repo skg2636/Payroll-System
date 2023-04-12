@@ -48,6 +48,11 @@ public class sample extends JFrame {
     }
     
     public static void main(String[] args) {
+        String query = "select i.grade_id,hra1,hra2,hra3,da,ta,lta,medical,phonewifi,anyother,ptax,pfund,name from "
+                    + "basic_grade_details i inner join other_grade_details o on i.grade_id = o.grade_id inner "
+                    + "join deduction_grade_details d on d.grade_id = i.grade_id inner join grade g on g.id = d.grade_id ; "  ;
+        
+        System.out.println(query);
         new sample();
     }
 }

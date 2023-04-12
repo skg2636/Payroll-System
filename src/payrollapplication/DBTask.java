@@ -386,6 +386,48 @@ public class DBTask {
             return DB_ERROR;
         }
     }
+    
+    
+    public ArrayList<Grade> getListofGradeFromTable(){
+        try {
+            ArrayList<Grade> grade_list = new ArrayList<>();
+            String query = "select i.grade_id,hra1,hra2,hra3,da,ta,lta,medical,phonewifi,anyother,ptax,pfund,name from "
+                    + "basic_grade_details i inner join other_grade_details o on i.grade_id = o.grade_id inner "
+                    + "join deduction_grade_details d on d.grade_id = i.grade_id inner join grade g on g.id = d.grade_id ; "  ;
+            
+            System.out.println(query);
+            ResultSet resultSet = statement.executeQuery(query);
+            while(resultSet.next()){
+                String grade_id = resultSet.getString(1);
+                String hra1 = resultSet.getString(2);
+                String hra2 = resultSet.getString(3);
+                String hra3 = resultSet.getString(4);
+                String da = resultSet.getString(5);
+                String ta = resultSet.getString(6);
+                String lta = resultSet.getString(7);
+                String medical = resultSet.getString(8);
+                String phonewifi = resultSet.getString(9);
+                String anyother = resultSet.getString(10);
+                String ptax = resultSet.getString(11);
+                String pfund = resultSet.getString(12);
+                String grade_name = resultSet.getString(13);
+
+                Grade grade = new Grade(grade_id, grade_name, hra1, hra2, 
+                        hra3, ta, lta, da, medical, phonewifi, anyother, ptax, pfund);
+                
+                grade_list.add(grade);          
+            }
+            
+            
+            
+            return grade_list;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            Logger.getLogger(DBTask.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        
+    }
 
     // GRADE MODULE FUNCTIONS
 }

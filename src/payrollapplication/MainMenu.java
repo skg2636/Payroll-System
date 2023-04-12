@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package payrollapplication;
 
 import Department.AddDepartment;
@@ -11,6 +7,7 @@ import Department.SearchDepartment;
 import Department.UpdateDepartment;
 import Grade.AddGrade;
 import Grade.DeleteGrade;
+import Grade.ListGrade;
 import Grade.SearchGrade;
 import Grade.UpdateGrade;
 import java.awt.Dimension;
@@ -24,10 +21,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-/**
- *
- * @author KIIT
- */
+
 public class MainMenu extends JFrame implements ActionListener {
 
     JMenuBar menuBar;
@@ -185,9 +179,14 @@ public class MainMenu extends JFrame implements ActionListener {
             }
         });
         
+        listGrade.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+                mainMenuFrame.setVisible(false);
+                mainMenuFrame = new ListGrade().getListGradeFrame();
+                mainMenuFrame.setVisible(true);
+            }
+        });
         
-       
-
     }
 
     public static void main(String args[]) {
