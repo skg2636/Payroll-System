@@ -5,11 +5,13 @@ import Department.AddDepartment;
 import Department.ListDepartment;
 import Department.SearchDepartment;
 import Department.UpdateDepartment;
+import Employee.AddEmployee;
 import Grade.AddGrade;
 import Grade.DeleteGrade;
 import Grade.ListGrade;
 import Grade.SearchGrade;
 import Grade.UpdateGrade;
+import Leave.EmployeeLeaveList;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -29,7 +31,7 @@ public class MainMenu extends JFrame implements ActionListener {
     JMenuItem sampleItem, listEmployee, addEmployee, removeEmployee, searchEmployee, updateEmployee,
             listDepartment, addDepartment, searchDepartment, updateDepartment,
             listGrade, addGrade, removeGrade, searchGrade, updateGrade,
-            help, otherTaskItem1, otherTaskItem2, otherTaskItem3, otherTaskItem4;
+            help, leaveRequest, otherTaskItem2, otherTaskItem3, otherTaskItem4;
 
     JFrame mainMenuFrame;
 
@@ -85,11 +87,11 @@ public class MainMenu extends JFrame implements ActionListener {
         menuBar.add(helpMenu);
 
         otherTaskMenu = new JMenu("Other Task");
-        otherTaskItem1 = new JMenuItem("Task Item 1");
+        leaveRequest = new JMenuItem("Leave Request");
         otherTaskItem2 = new JMenuItem("Task Item 2");
         otherTaskItem3 = new JMenuItem("Task Item 3");
         otherTaskItem4 = new JMenuItem("Task Item 4");
-        otherTaskMenu.add(otherTaskItem1);
+        otherTaskMenu.add(leaveRequest);
         otherTaskMenu.add(otherTaskItem2);
         otherTaskMenu.add(otherTaskItem3);
         otherTaskMenu.add(otherTaskItem4);
@@ -183,6 +185,21 @@ public class MainMenu extends JFrame implements ActionListener {
             public void actionPerformed(ActionEvent ev) {
                 mainMenuFrame.setVisible(false);
                 mainMenuFrame = new ListGrade().getListGradeFrame();
+                mainMenuFrame.setVisible(true);
+            }
+        });
+        addEmployee.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+                mainMenuFrame.setVisible(false);
+                mainMenuFrame = new AddEmployee().getAddEmployeeFrame();
+                mainMenuFrame.setVisible(true);
+            }
+        });
+        
+        leaveRequest.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+                mainMenuFrame.setVisible(false);
+                mainMenuFrame = new EmployeeLeaveList().getEmployeeLeaveListFrame();
                 mainMenuFrame.setVisible(true);
             }
         });

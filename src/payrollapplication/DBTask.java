@@ -7,8 +7,10 @@ package payrollapplication;
 
 import Department.Department;
 import Grade.Grade;
+import Leave.EmployeeLeave;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -430,4 +432,162 @@ public class DBTask {
     }
 
     // GRADE MODULE FUNCTIONS
+    
+    
+    // EMPLOYEE MODULE FUNCTIONS
+    public int uploadEmployeeDetails(HashMap<String,String> generalMap,
+                                     HashMap<String,String> contactMap,
+                                     HashMap<String,String> bankMap,
+                                     HashMap<String,String> employeeMap){
+        try {            
+            String primaryQueryCheck = "select * from employee where employee_id = '" + generalMap.get("ID") + "';";
+            ResultSet set = statement.executeQuery(primaryQueryCheck);
+            if(set.next()){
+                return PRIMARY_KEY_ERROR;
+            }else{
+                String uploadQueryGeneralDetails = "insert into employee values('" + 
+                        generalMap.get("ID") + "','" + 
+                        generalMap.get("FIRST_NAME") + "','" + generalMap.get("LAST_NAME") + "','" +
+                        generalMap.get("GENDER") + "','" + generalMap.get("DOB") + "','" + 
+                        generalMap.get("PAN") + "','" + generalMap.get("AADHAR") + "','" +
+                        generalMap.get("STATUS") + "','" + generalMap.get("NATIONALITY") + "');";
+                String uploadQueryContactDetails = "insert into employee_contact values('" +
+                        generalMap.get("ID") + "','" +
+                        contactMap.get("LINE_1") + "','" + contactMap.get("LINE_2") + "','" +
+                        contactMap.get("LOCALITY") + "','" + contactMap.get("LANDMARK") + "','" +
+                        contactMap.get("PIN") + "','" + contactMap.get("CITY") + "','" +
+                        contactMap.get("STATE") + "','" + contactMap.get("COUNTRY") + "','" +
+                        contactMap.get("EMAIL") + "','" + contactMap.get("PHONE") + "');";
+                
+                String uploadQueryBankDetails = "insert into bank_details values('" +
+                        generalMap.get("ID") + "','" +
+                        bankMap.get("AC_NO") + "','" + bankMap.get("BANK_NAME") + "','" +
+                        bankMap.get("IFSC") + "','" + bankMap.get("BRANCH") + "','" +
+                        bankMap.get("TYPE") + "','" + bankMap.get("REGISTERED_NAME") + "');";
+                
+                String uploadQueryHrDetails = "insert into hr_details values('" +
+                        generalMap.get("ID") + "','" +
+                        employeeMap.get("DEPARTMENT") + "','" + employeeMap.get("GRADE") + "','" +
+                        employeeMap.get("BASICS") + "','" + employeeMap.get("DOJ") + "','" +
+                        employeeMap.get("LEAVES") + "','" + employeeMap.get("USERNAME") + "','" +
+                        employeeMap.get("PASSWORD") + "','" + employeeMap.get("DESIGNATION") +
+                        "','" + employeeMap.get("LOGIN_ALLOWED") + "');" ;
+                statement.executeUpdate(uploadQueryGeneralDetails);
+                statement.executeUpdate(uploadQueryContactDetails);
+                statement.executeUpdate(uploadQueryBankDetails);
+                statement.executeUpdate(uploadQueryHrDetails);
+                
+                return SUCCESS;
+                
+            }
+            
+            
+            
+        } catch (SQLException ex) {
+            try {
+                System.out.println(ex);
+                Logger.getLogger(DBTask.class.getName()).log(Level.SEVERE, null, ex);
+                statement.executeUpdate("delete from employee where employee_id = '" + generalMap.get("ID") + "';");
+                return DB_ERROR;
+            } catch (SQLException ex1) {
+                Logger.getLogger(DBTask.class.getName()).log(Level.SEVERE, null, ex1);
+                return DB_ERROR;
+            }
+            
+           
+        }
+    }
+    
+    public HashMap<String,String> getDepartmentListFromDB(){
+        try {
+            HashMap<String,String> resultMap = new HashMap<>();
+            String query = "select dept_id,dept_name from department;";
+            ResultSet resultSet = statement.executeQuery(query);
+            while(resultSet.next()){
+                resultMap.put(resultSet.getString(2), resultSet.getString(1));
+            }
+            
+            
+            return resultMap;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            Logger.getLogger(DBTask.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    
+    public HashMap<String,String> getGradeListFromDB(){
+        try {
+            HashMap<String,String> resultMap = new HashMap<>();
+            String query = "select * from grade;";
+            ResultSet resultSet = statement.executeQuery(query);
+            while(resultSet.next()){
+                resultMap.put(resultSet.getString(2), resultSet.getString(1));
+            }
+            
+            
+            return resultMap;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            Logger.getLogger(DBTask.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    
+    // EMPLOYEE MODULE FUNCTIONS
+    
+    
+    // LEAVE MODULE
+    
+    public int leaveLogResultUpdate(String empid,String leavemonth,
+            String leaveYear,String approval,
+            String comment, String leave_request_id, String duration){
+        
+        String query1 = "update  leave_request set status='" + approval + 
+                "' where leave_request_id = '" + leave_request_id + "';";
+        String query2 = "insert into leave_log values('" + empid + "','" + leavemonth + "','" +
+                leaveYear + "','" + approval + "','" + comment + "'," + "now()" + ",'" +
+                leave_request_id + "','" + duration + "');";
+        try {
+            statement.executeUpdate(query1);
+            statement.executeUpdate(query2);
+            
+            return SUCCESS;
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DBTask.class.getName()).log(Level.SEVERE, null, ex);
+            return DB_ERROR;
+        }
+        
+        
+        
+        
+        
+    }
+    
+    public ArrayList<EmployeeLeave> fetchAllLeaveRequest(){
+        try {
+            ArrayList<EmployeeLeave> resultList = new ArrayList<>();
+            ResultSet resultSet = statement.executeQuery("select * from leave_request");
+            while(resultSet.next()){
+                if(resultSet.getString(7) == null){
+                resultList.add(new EmployeeLeave(resultSet.getString(1), 
+                        resultSet.getString(2), resultSet.getString(3), 
+                        resultSet.getString(4), resultSet.getString(5), resultSet.getString(6)));
+                }
+            }
+            
+            return resultList;
+            
+            
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            Logger.getLogger(DBTask.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        
+        
+    }
 }

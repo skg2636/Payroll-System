@@ -131,6 +131,7 @@ public class LoginAdmin extends JFrame implements ActionListener {
             if (result == 1) {
                 System.out.println("Login Sucessful");
                 JOptionPane.showMessageDialog(null, "Login Successful");
+                new MainMenu();
                 
             } else {
                 System.out.println("Login not Sucessful");
