@@ -6,6 +6,7 @@ import Department.ListDepartment;
 import Department.SearchDepartment;
 import Department.UpdateDepartment;
 import Employee.AddEmployee;
+import Employee.AllEmployeePaymentDetails;
 import Employee.EmployeePaymentDetails;
 import Grade.AddGrade;
 import Grade.DeleteGrade;
@@ -32,7 +33,7 @@ public class MainMenu extends JFrame implements ActionListener {
     JMenuItem sampleItem, listEmployee, addEmployee, removeEmployee, searchEmployee, updateEmployee,employeePaymentDetails,
             listDepartment, addDepartment, searchDepartment, updateDepartment,
             listGrade, addGrade, removeGrade, searchGrade, updateGrade,
-            help, leaveRequest, otherTaskItem2, otherTaskItem3, otherTaskItem4;
+            help, leaveRequest, allEmployeePaymentDetails, otherTaskItem3, otherTaskItem4;
 
     JFrame mainMenuFrame;
 
@@ -91,11 +92,11 @@ public class MainMenu extends JFrame implements ActionListener {
 
         otherTaskMenu = new JMenu("Other Task");
         leaveRequest = new JMenuItem("Leave Request");
-        otherTaskItem2 = new JMenuItem("Task Item 2");
+        allEmployeePaymentDetails = new JMenuItem("All Employee Payment");
         otherTaskItem3 = new JMenuItem("Task Item 3");
         otherTaskItem4 = new JMenuItem("Task Item 4");
         otherTaskMenu.add(leaveRequest);
-        otherTaskMenu.add(otherTaskItem2);
+        otherTaskMenu.add(allEmployeePaymentDetails);
         otherTaskMenu.add(otherTaskItem3);
         otherTaskMenu.add(otherTaskItem4);
         menuBar.add(otherTaskMenu);
@@ -212,6 +213,14 @@ public class MainMenu extends JFrame implements ActionListener {
             public void actionPerformed(ActionEvent ev) {
                 mainMenuFrame.setVisible(false);
                 mainMenuFrame = new EmployeePaymentDetails().getEmployeePaymentDetailsFrame();
+                mainMenuFrame.setVisible(true);
+            }
+        });
+        
+        allEmployeePaymentDetails.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+                mainMenuFrame.setVisible(false);
+                mainMenuFrame = new AllEmployeePaymentDetails().getAllEmployeePaymentDetailsFrame();
                 mainMenuFrame.setVisible(true);
             }
         });

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Leave;
 
 import java.awt.BorderLayout;
@@ -22,10 +18,7 @@ import javax.swing.table.DefaultTableModel;
 import payrollapplication.DBTask;
 import payrollapplication.MainMenu;
 
-/**
- *
- * @author KIIT
- */
+
 public class EmployeeLeaveList extends JFrame {
 
     private JFrame employeeLeaveListFrame;

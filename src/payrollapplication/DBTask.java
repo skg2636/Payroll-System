@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package payrollapplication;
 
 import Department.Department;
@@ -14,10 +10,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author KIIT
- */
+
 public class DBTask {
 
     Statement statement;
@@ -27,9 +20,8 @@ public class DBTask {
     public DBTask() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/payroll", "root", "Sandeep123");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_name", "root", "password");
             statement = connection.createStatement();
-            System.out.println("Connection created");
 
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e);
@@ -40,7 +32,6 @@ public class DBTask {
     @Override
     protected void finalize() throws SQLException {
         connection.close();
-        System.out.println("Connection closed");
     }
 
     // ADMIN MODULE FUNCTIONS
@@ -48,7 +39,7 @@ public class DBTask {
         try {
             String query = "select * from admin_users where username = '"
                     + username + "' and password = '" + password + "';";
-            System.out.println(query);
+            
             ResultSet resultSet = statement.executeQuery(query);
             if (resultSet.next()) {
                 return 1;
@@ -104,7 +95,7 @@ public class DBTask {
             String query = "update department set dept_name = '" + name + "', manager_name = '" + manager + "',location = '" + location + "' where dept_id = '" + id + "';";
             statement.executeUpdate(query);
 
-            System.out.println(query);
+           
             return 1;
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -148,7 +139,7 @@ public class DBTask {
                     + "' and manager_name ='" + manager + "' and location = '" + location + "';";
 
             statement.executeUpdate(query);
-            System.out.println(query);
+            
             return 1;
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -195,7 +186,7 @@ public class DBTask {
             }
             String query = "insert into department values('" + departmentID + "','" + departmentName
                     + "','" + managerName + "','" + location + "');";
-            System.out.println(query);
+            
             statement.executeUpdate(query);
             return 1;
         } catch (SQLException ex) {
@@ -211,14 +202,14 @@ public class DBTask {
     public int addGradeDetails(String id, String name) {
         try {
             String checkQuery = "select * from grade where id = '" + id + "';";
-            System.out.println(checkQuery);
+            
 
             ResultSet resultSet = statement.executeQuery(checkQuery);
             if (resultSet.next()) {
                 return PRIMARY_KEY_ERROR;
             }
             String query = "insert into grade values('" + id + "','" + name + "');";
-            System.out.println(query);
+            
             statement.executeUpdate(query);
 
             return SUCCESS;
@@ -233,7 +224,7 @@ public class DBTask {
         try {
             String query = "insert into basic_grade_details  values('" + id + "','" + hra1
                     + "','" + hra2 + "','" + hra3 + "','" + da + "','" + ta + "','" + lta + "');";
-            System.out.println(query);
+            
             statement.executeUpdate(query);
 
             return SUCCESS;
@@ -249,7 +240,7 @@ public class DBTask {
         try {
             String query = "insert into other_grade_details values('" + id + "','" + medical + "','"
                     + phonewifi + "','" + other + "');";
-            System.out.println(query);
+            
             statement.executeUpdate(query);
 
             return SUCCESS;
@@ -265,7 +256,7 @@ public class DBTask {
 
         try {
             String query = "insert into deduction_grade_details values('" + id + "','" + ptax + "','" + pfund + "');";
-            System.out.println(query);
+            
             statement.executeUpdate(query);
             return SUCCESS;
         } catch (SQLException ex) {
@@ -342,7 +333,7 @@ public class DBTask {
             String query = "select i.grade_id,hra1,hra2,hra3,da,ta,lta,medical,phonewifi,anyother,ptax,pfund,name from "
                     + "basic_grade_details i inner join other_grade_details o on i.grade_id = o.grade_id inner "
                     + "join deduction_grade_details d on d.grade_id = i.grade_id inner join grade g on g.id = d.grade_id  " + "where i.grade_id = '" + id + "';";
-            System.out.println(query);
+            
             ResultSet resultSet = statement.executeQuery(query);
 
             if (resultSet.next()) {
@@ -378,7 +369,7 @@ public class DBTask {
         try {
             String query = "delete from grade where id = '" + grade_id + "';";
             
-            System.out.println(query);
+            
             
             statement.executeUpdate(query);
             
@@ -397,7 +388,7 @@ public class DBTask {
                     + "basic_grade_details i inner join other_grade_details o on i.grade_id = o.grade_id inner "
                     + "join deduction_grade_details d on d.grade_id = i.grade_id inner join grade g on g.id = d.grade_id ; "  ;
             
-            System.out.println(query);
+            
             ResultSet resultSet = statement.executeQuery(query);
             while(resultSet.next()){
                 String grade_id = resultSet.getString(1);
@@ -613,7 +604,7 @@ public class DBTask {
         try {
             String query = "select city_type from hr_details where id= '" + empId + "'";
             ResultSet resultSet = statement.executeQuery(query);
-            System.out.println(query);
+            
             String grade = "";
             while(resultSet.next()){
                 grade = resultSet.getString(1);
@@ -644,7 +635,7 @@ public class DBTask {
             String query = "select sum(duration) from leave_log where leaveapproved='Approved' and "
                     + "empid='" + empId + "' and leavemonth= '" + mm + "' and leaveyear = '" + yy + "';";
             ResultSet resultSet = statement.executeQuery(query);
-            System.out.println(query);
+            
             String totalLeave = "0";
             while(resultSet.next()){
                 totalLeave = resultSet.getString(1);

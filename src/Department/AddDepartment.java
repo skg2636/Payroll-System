@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Department;
 
 import java.awt.GridBagConstraints;
@@ -17,10 +13,7 @@ import javax.swing.JTextField;
 import payrollapplication.DBTask;
 import payrollapplication.MainMenu;
 
-/**
- *
- * @author KIIT
- */
+
 public class AddDepartment extends JFrame {
 
     private final JLabel idLabel, nameLabel, managerLabel, locationLabel;
@@ -116,10 +109,6 @@ public class AddDepartment extends JFrame {
             }else
             {
                 showProgressDailog();
-                System.out.println("Department ID: " + departmentId);
-                System.out.println("Department Name: " + departmentName);
-                System.out.println("Manager Name: " + managerName);
-                System.out.println("Location: " + location);
                 DBTask task = new DBTask();
                 int result = task.addDepartmentRowToTable(departmentId, departmentName, managerName, location);
                 hideProcessDailog();

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Employee;
 
 import java.awt.event.KeyEvent;
@@ -32,10 +28,7 @@ import javax.swing.JPasswordField;
 import payrollapplication.DBTask;
 import payrollapplication.MainMenu;
 
-/**
- *
- * @author KIIT
- */
+
 public class AddEmployee extends JFrame implements KeyListener {
 
     private HashMap<String, String> generalDetailsMap = new HashMap<>();

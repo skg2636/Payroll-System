@@ -88,7 +88,6 @@ public class ListGrade extends JFrame{
         
         exportButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Exporting Feature");
                 ExportList exportList = new ExportList(model, model.getRowCount(),column_names);
                 int result = exportList.writeFile();
                 if(result == 1){

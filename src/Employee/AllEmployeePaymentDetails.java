@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Employee;
 
 import Grade.Grade;
@@ -10,11 +6,9 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -31,10 +25,7 @@ import payrollapplication.DBTask;
 import payrollapplication.ExportList;
 import payrollapplication.MainMenu;
 
-/**
- *
- * @author KIIT
- */
+
 public class AllEmployeePaymentDetails extends JFrame{
     
     private JFrame allEmployeePaymentDetailsFrame; 
@@ -213,10 +204,6 @@ public class AllEmployeePaymentDetails extends JFrame{
     
     public JFrame getAllEmployeePaymentDetailsFrame(){
         return allEmployeePaymentDetailsFrame;
-    }
-    
-    public static void main(String args[]){
-        new AllEmployeePaymentDetails();
     }
     
 }

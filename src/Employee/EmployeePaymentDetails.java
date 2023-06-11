@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Employee;
 
 import Grade.Grade;
@@ -344,18 +340,15 @@ public class EmployeePaymentDetails extends JFrame {
 
     private void calculateAndPopulateAllField(String empId, int mm, String yy) {
         String gradeId = task.getGradeIdByEmployeeId(empId);
-        System.out.println(gradeId);
         Grade grade = task.searchGradeById(gradeId);
-        System.out.println(grade.getDaPercent());
         String basic = task.getBasicByEmployeeId(empId);
         int cityType = task.getCityByEmployeeId(empId);
 
-        System.out.println(basic + " " + mm + " " + yy);
         String totalLeave = task.getLeaveDetailsByEmployeeId(empId, String.valueOf(mm), yy);
         if (totalLeave == null) {
             totalLeave = "0";
         }
-        System.out.println(totalLeave);
+
 
         double basicValue = Double.parseDouble(basic);
         double hraValue = 0;

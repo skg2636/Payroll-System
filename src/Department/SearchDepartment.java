@@ -8,10 +8,7 @@ import javax.swing.JTextField;
 import payrollapplication.DBTask;
 import payrollapplication.MainMenu;
 
-/**
- *
- * @author KIIT
- */
+
 public class SearchDepartment extends JFrame {
     
     private DBTask task;

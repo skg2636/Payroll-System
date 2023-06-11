@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package payrollapplication;
 
 import java.awt.Color;
@@ -21,10 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-/**
- *
- * @author KIIT
- */
+
 public class LoginAdmin extends JFrame implements ActionListener {
 
     JButton loginButton, exitButton;
@@ -129,12 +122,12 @@ public class LoginAdmin extends JFrame implements ActionListener {
             }
             hideProcessDailog();
             if (result == 1) {
-                System.out.println("Login Sucessful");
+              
                 JOptionPane.showMessageDialog(null, "Login Successful");
                 new MainMenu();
                 
             } else {
-                System.out.println("Login not Sucessful");
+            
                 JOptionPane.showMessageDialog(null, "Login Failed! Wrong Credentials");
             }
         } else if (e.getSource() == exitButton) {
