@@ -6,6 +6,7 @@ import Department.ListDepartment;
 import Department.SearchDepartment;
 import Department.UpdateDepartment;
 import Employee.AddEmployee;
+import Employee.EmployeePaymentDetails;
 import Grade.AddGrade;
 import Grade.DeleteGrade;
 import Grade.ListGrade;
@@ -28,7 +29,7 @@ public class MainMenu extends JFrame implements ActionListener {
 
     JMenuBar menuBar;
     JMenu fileMenu, employeeMenu, departmentMenu, gradeMenu, helpMenu, otherTaskMenu;
-    JMenuItem sampleItem, listEmployee, addEmployee, removeEmployee, searchEmployee, updateEmployee,
+    JMenuItem sampleItem, listEmployee, addEmployee, removeEmployee, searchEmployee, updateEmployee,employeePaymentDetails,
             listDepartment, addDepartment, searchDepartment, updateDepartment,
             listGrade, addGrade, removeGrade, searchGrade, updateGrade,
             help, leaveRequest, otherTaskItem2, otherTaskItem3, otherTaskItem4;
@@ -50,11 +51,13 @@ public class MainMenu extends JFrame implements ActionListener {
         removeEmployee = new JMenuItem("Delete Employee");
         searchEmployee = new JMenuItem("Search Employee");
         updateEmployee = new JMenuItem("Update Employee");
+        employeePaymentDetails = new JMenuItem("Employee Payment Details");
         employeeMenu.add(listEmployee);
         employeeMenu.add(addEmployee);
         employeeMenu.add(removeEmployee);
         employeeMenu.add(searchEmployee);
         employeeMenu.add(updateEmployee);
+        employeeMenu.add(employeePaymentDetails);
         menuBar.add(employeeMenu);
 
         departmentMenu = new JMenu("Department");
@@ -111,6 +114,7 @@ public class MainMenu extends JFrame implements ActionListener {
                 g.drawImage(imageIcon.getImage(), 0, 0, dimension.width, dimension.height, null);
             }
         };
+        
         backgroundLabel.setBounds(0, 0, getWidth(), getHeight());
         mainMenuFrame.setLayout(null);
         mainMenuFrame.add(backgroundLabel);
@@ -200,6 +204,14 @@ public class MainMenu extends JFrame implements ActionListener {
             public void actionPerformed(ActionEvent ev) {
                 mainMenuFrame.setVisible(false);
                 mainMenuFrame = new EmployeeLeaveList().getEmployeeLeaveListFrame();
+                mainMenuFrame.setVisible(true);
+            }
+        });
+        
+        employeePaymentDetails.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ev) {
+                mainMenuFrame.setVisible(false);
+                mainMenuFrame = new EmployeePaymentDetails().getEmployeePaymentDetailsFrame();
                 mainMenuFrame.setVisible(true);
             }
         });

@@ -17,18 +17,14 @@ import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
@@ -86,11 +82,12 @@ public class AddEmployee extends JFrame implements KeyListener {
     
     // Employee Details Field
     
-    private JLabel designationLabel,departmentLabel,gradeLabel,basicsLabel,joiningDateLabel,leavesLabel;
+    private JLabel designationLabel,departmentLabel,gradeLabel,basicsLabel,joiningDateLabel,leavesLabel,cityTypeLabel;
     private JTextField designationField,basicsField,leavesField;
     
-    private JComboBox dateBox,monthBox,yearBox,departmentBox,gradeBox;
+    private JComboBox dateBox,monthBox,yearBox,departmentBox,gradeBox,cityTypeBox;
     private String year2[];
+    private String[] cityType = new String[]{"Tier-1","Tier-2","Tier-3"};
     
     // Login Details
     
@@ -400,6 +397,13 @@ public class AddEmployee extends JFrame implements KeyListener {
         leavesField.setBounds(200, 250, 150, 25);
         employeePanel.add(leavesField);
         
+        cityTypeLabel = new JLabel("City Type");
+        cityTypeLabel.setBounds(50,290,120,25);
+        employeePanel.add(cityTypeLabel);
+        cityTypeBox = new JComboBox(cityType);
+        cityTypeBox.setBounds(200,290,150,25);
+        employeePanel.add(cityTypeBox);
+        
         loginUserNameLabel = new JLabel("Username:");
         loginUserNameLabel.setBounds(50, 50, 120, 25);
         loginPanel.add(loginUserNameLabel);
@@ -521,6 +525,7 @@ public class AddEmployee extends JFrame implements KeyListener {
         employeeDetailsMap.put("LEAVES",leavesField.getText());
         employeeDetailsMap.put("USERNAME",loginUserNameField.getText());
         employeeDetailsMap.put("PASSWORD",loginPasswordField.getText());
+        employeeDetailsMap.put("CITY-TYPE",cityType[cityTypeBox.getSelectedIndex()]);
         if(loginCheckBox.isSelected()){
             employeeDetailsMap.put("LOGIN_ALLOWED","ALLOWED");
         }else{

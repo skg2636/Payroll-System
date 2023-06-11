@@ -471,7 +471,7 @@ public class DBTask {
                         employeeMap.get("BASICS") + "','" + employeeMap.get("DOJ") + "','" +
                         employeeMap.get("LEAVES") + "','" + employeeMap.get("USERNAME") + "','" +
                         employeeMap.get("PASSWORD") + "','" + employeeMap.get("DESIGNATION") +
-                        "','" + employeeMap.get("LOGIN_ALLOWED") + "');" ;
+                        "','" + employeeMap.get("LOGIN_ALLOWED") + "','"+ employeeMap.get("CITY-TYPE")  +"');" ;
                 statement.executeUpdate(uploadQueryGeneralDetails);
                 statement.executeUpdate(uploadQueryContactDetails);
                 statement.executeUpdate(uploadQueryBankDetails);
@@ -582,6 +582,174 @@ public class DBTask {
             return resultList;
             
             
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            Logger.getLogger(DBTask.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        
+        
+    }
+    public String getPaidLeavesAllowed(String empId){
+        try {
+            String query = "select paid_leaves from hr_details where id = '" + empId + "';";
+            ResultSet resultSet = statement.executeQuery(query);
+            String paidleaves = null;
+            while(resultSet.next()){
+                paidleaves = resultSet.getString(1);
+            }
+          
+            
+            return paidleaves;
+        } catch (SQLException ex) {
+            
+            System.out.println(ex);
+            Logger.getLogger(DBTask.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    public int getCityByEmployeeId(String empId){
+        try {
+            String query = "select city_type from hr_details where id= '" + empId + "'";
+            ResultSet resultSet = statement.executeQuery(query);
+            System.out.println(query);
+            String grade = "";
+            while(resultSet.next()){
+                grade = resultSet.getString(1);
+            }
+            if(null != grade)switch (grade) {
+                case "Tier-1":
+                    return 1;
+                case "Tier-2":
+                    return 2;
+                case "Tier-3":
+                    return 3;
+                default:
+                    break;
+            }
+            return 0;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            Logger.getLogger(DBTask.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        }
+        
+        
+    }
+    
+    public String getLeaveDetailsByEmployeeId(String empId, String mm, String yy)
+    {
+        try {
+            String query = "select sum(duration) from leave_log where leaveapproved='Approved' and "
+                    + "empid='" + empId + "' and leavemonth= '" + mm + "' and leaveyear = '" + yy + "';";
+            ResultSet resultSet = statement.executeQuery(query);
+            System.out.println(query);
+            String totalLeave = "0";
+            while(resultSet.next()){
+                totalLeave = resultSet.getString(1);
+            }
+            
+            return totalLeave;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            Logger.getLogger(DBTask.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        
+    }
+    
+    public String getBasicByEmployeeId(String empId){
+         try {
+            String query = "select basics from hr_details where id = '" + empId + "';";
+            ResultSet resultSet = statement.executeQuery(query);
+            String basic = null;
+            while(resultSet.next()){
+                basic = resultSet.getString(1);
+            }
+          
+            
+            return basic;
+        } catch (SQLException ex) {
+            
+            System.out.println(ex);
+            Logger.getLogger(DBTask.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    public String getGradeIdByEmployeeId(String empId){
+        try {
+            String query = "select grade_id from hr_details where id = '" + empId + "';";
+            ResultSet resultSet = statement.executeQuery(query);
+            String gradeId = null;
+            while(resultSet.next()){
+                gradeId = resultSet.getString(1);
+            }
+          
+            
+            return gradeId;
+        } catch (SQLException ex) {
+            
+            System.out.println(ex);
+            Logger.getLogger(DBTask.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        
+    }
+    
+    public HashMap<String,String> fetechAllEmployeeList(){
+        try{
+            HashMap<String,String> resultMap = new HashMap<>();
+            String query = "select employee_id,concat(first_name,' ',last_name) from employee where emp_status='Active';";
+            ResultSet resultSet = statement.executeQuery(query);
+            
+            while(resultSet.next()){
+                resultMap.put(resultSet.getString(1), resultSet.getString(2));
+            }
+            
+            return resultMap;
+            
+        }catch(SQLException ex){
+            System.out.println(ex);
+            Logger.getLogger(DBTask.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+   
+    
+    public String getDateOfJoiningOfEmployee(String empid){
+        try{
+            String query = "select jod from hr_details where id='" + empid + "';";
+            ResultSet res = statement.executeQuery(query);
+            String result ="";
+            
+            while(res.next()){
+                result = res.getString(1);
+            }
+            
+            return result;
+            
+        }catch(SQLException ex){
+            System.out.println(ex);
+            Logger.getLogger(DBTask.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    public HashMap<String,String> fetchAllEmployeeByDepartment(String deptId){
+        try {
+            HashMap<String,String> resultMap = new HashMap<>();
+            
+            String query = "select employee_id,concat(first_name,' ',last_name) from employee where employee_id in "
+                    + "(select h.id from hr_details h inner join department d on h.dept_id = d.dept_id "
+                    + "where d.dept_id = '" + deptId + "');";
+            ResultSet resultSet = statement.executeQuery(query);
+            while(resultSet.next()){
+                resultMap.put(resultSet.getString(2),resultSet.getString(1));
+            }
+            
+            return resultMap;
         } catch (SQLException ex) {
             System.out.println(ex);
             Logger.getLogger(DBTask.class.getName()).log(Level.SEVERE, null, ex);
